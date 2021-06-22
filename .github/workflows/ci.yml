@@ -24,7 +24,7 @@ jobs:
         access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         account_id: ${{ secrets.AWS_ACCOUNT_ID }}
-        repo: 089164213324.dkr.ecr.eu-west-1.amazonaws.com/avocado-file-toaster
+        repo: avocado-file-toaster
         region: eu-west-1
         tags: latest,${{ github.sha }}
         create_repo: true
