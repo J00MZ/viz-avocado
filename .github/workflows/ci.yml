@@ -51,5 +51,3 @@ jobs:
         function_name: avocado-file-toaster
         image_uri: 089164213324.dkr.ecr.eu-west-1.amazonaws.com/avocado-file-toaster:latest
         dry_run: true
-
-vanish spell field broken inside cheese august rain agree brand general roast
