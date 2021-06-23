@@ -1,8 +1,11 @@
 # viz-avocado
-This repo will build and push an image of Avocado Goodness 🥑🥑 to S3  
-The image will run a python script that triggers when a file is uploaded to the S3 Bucket `avocado-file-toaster` and will send the file type and URI to the new object in S3 to an email address
+- This repo will build and push an image of Avocado Goodness to [S3](https://aws.amazon.com/s3/) 🥑🥑  
+- The image is containerized in an [AWS Lambda](https://aws.amazon.com/lambda/) function
+- The Function consists of a Python script that triggers when a file is uploaded to the S3 Bucket `avocado-file-toaster`  
+- When function is triggered, it will send the file type and S3 URI of the new object in S3 to an email address using [AWS SES](https://aws.amazon.com/ses/)
 
-## Triggering the Lambda Function
+# Usage
+## Triggering Lambda Function
 
 - Upload an object to `s3://viz-avocado`
 
@@ -11,5 +14,16 @@ The image will run a python script that triggers when a file is uploaded to the 
 
 Will trigger:  
 1. New Docker build of the image
-2. Push built image to ECR
-3. Run a Deployment of the new container from ECR to Lambda
+2. Push newly built image to ECR
+3. Run a Deployment of the new container from ECR to the Lambda Function
+
+## CI
+Runs with [GitHub Actions](https://github.com/J00MZ/viz-avocado/actions)
+
+# Initial Setup
+
+1. Created the S3 bucket
+2. Created ECR Repo to push Docker image to
+3. Created IAM role for Lambda to assume with permissions
+4. Created the Lambda Function to use the ECR Repo created at step `2`.
+5. Added secrets used by CI to GitHub Repo [secrets](https://github.com/J00MZ/viz-avocado/settings/secrets/actions)
