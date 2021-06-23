@@ -15,11 +15,20 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Build the Docker image 
+      run: |
+        docker build . --file Dockerfile --tag avocado-file-toaster:$(date +%s) --build-arg ${{ secrets.AWS_ACCESS_KEY_ID }} --build-arg ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
+  push:
+    runs-on: ubuntu-latest
+    steps:
     - uses: docker://ghcr.io/kciter/aws-ecr-action:latest
+    - name: Push updated docker image to ECR
       with:
         access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -27,7 +36,20 @@ jobs:
         repo: avocado-file-toaster
         region: eu-west-1
         tags: latest,${{ github.sha }}
-        create_repo: true
-        set_repo_policy: true
-        repo_policy_file: repo-policy.json
 
+  deploy:
+    name: Deploy new lambda function from new docker image in ECR
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: AWS Lambda Deploy
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: ${{ secrets.AWS_REGION }}
+        function_name: avocado-file-toaster
+        image_uri: 089164213324.dkr.ecr.eu-west-1.amazonaws.com/avocado-file-toaster:latest
+        dry_run: true
+
+vanish spell field broken inside cheese august rain agree brand general roast
