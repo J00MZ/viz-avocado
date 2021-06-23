@@ -7,5 +7,9 @@ The image will run a python script that triggers when a file is uploaded to the 
 - Upload an object to `s3://viz-avocado`
 
 ## Building the Docker Image
-Push to master. 
-This will trigger a build of the image, push to ECR and run a Deployment of the new container from ECR to Lambda
+- Push code to `master` branch.  
+
+Will trigger:  
+1. New Docker build of the image
+2. Push built image to ECR
+3. Run a Deployment of the new container from ECR to Lambda
