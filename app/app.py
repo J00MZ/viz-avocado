@@ -8,17 +8,16 @@ def send_file_email(bucket, filename, filetype):
     SUBJECT = f"File [{filename}] uploaded to {bucket}"
     BODY_TEXT = (f"File: {filename}"
                  f"File Type: {filetype}")
-    BODY_HTML = f"""<html>
-    <head></head>
-    <body>
-    <h1>New File Uploaded to Bucket {bucket}</h1>
-    <p>File: {filename}</br>
-       File Type: {filetype}</br>
-       Download file from: <a href='s3://{bucket}/{filename}'>Amazon S3</a>
-    </p>
-    </body>
-    </html>
-                """
+    BODY_HTML = f"""
+    <html>
+        <head></head>
+        <body>
+            <h1>New File Uploaded to Bucket {bucket}</h1>
+            <p>File: {filename}</p>
+            <p>File Type: {filetype}</p>
+            <p>File URI in S3: s3://{bucket}/{filename}</p>
+        </body>
+    </html>"""
     CHARSET = "UTF-8"
 
     client = boto3.client('ses')
