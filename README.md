@@ -7,6 +7,5 @@ The image will run a python script that triggers when a file is uploaded to the 
 - Upload an object to `s3://viz-avocado`
 
 ## Building the Docker Image
-Currently the process builds including the runtime for lambda in every image.  
-This results in images that are large in size due to the whole of Lambda runtime baked in.  
-A possible workaround suggested by AWS is to mount the Lambda runtime as a volume on every container function invocation
+Push to master. 
+This will trigger a build of the image, push to ECR and Deployment of the new container from ECR to Lambda
