@@ -15,18 +15,15 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repo
+      uses: actions/checkout@v2
     - name: Build the Docker image 
       run: docker build . --file Dockerfile --tag avocado-file-toaster:$(date +%s) --build-arg ${{ secrets.AWS_ACCESS_KEY_ID }} --build-arg ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  push:
-    runs-on: ubuntu-latest
-    steps:
     - name: Push updated docker image to ECR
-    - uses: docker://ghcr.io/kciter/aws-ecr-action:latest
+      uses: docker://ghcr.io/kciter/aws-ecr-action:latest
       with:
         access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -39,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Deploy new lambda function from new docker image in ECR
-    - uses: appleboy/lambda-action@master
+      uses: appleboy/lambda-action@master
       with:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
