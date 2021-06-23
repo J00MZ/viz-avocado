@@ -67,7 +67,7 @@ def handler(event, context):
         filetype = response['ContentType']
         print(f"FILE TYPE: {filetype}")
         print(f"FULL RESPONSE: {response}")
-        send_file_email(key, filetype)
+        send_file_email(bucket, key, filetype)
         return response['ContentType']
     except Exception as e:
         print(e)
