@@ -1,10 +1,11 @@
 import urllib.parse
 import boto3
+import os
 from botocore.exceptions import ClientError
 
 def send_file_email(bucket, filename, filetype):
-    SENDER = "jtavin@gmail.com"
-    RECIPIENT = "yosef.tavin@equalum.io"
+    SENDER = os.environ['EMAIL_SENDER']
+    RECIPIENT = os.environ['EMAIL_RECIEVER']
     SUBJECT = f"File [{filename}] uploaded to {bucket}"
     BODY_TEXT = (f"File: {filename}"
                  f"File Type: {filetype}")
