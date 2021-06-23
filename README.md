@@ -26,4 +26,6 @@ Runs with [GitHub Actions](https://github.com/J00MZ/viz-avocado/actions)
 2. Created ECR Repo to push Docker image to
 3. Created IAM role for Lambda to assume with permissions
 4. Created the Lambda Function to use the ECR Repo created at step `2`.
-5. Added secrets used by CI to GitHub Repo [secrets](https://github.com/J00MZ/viz-avocado/settings/secrets/actions)
+5. Added secrets used by CI to access AWS to GitHub Repo [secrets](https://github.com/J00MZ/viz-avocado/settings/secrets/actions)
+6. Added email addresses to SES for authorization and approved via link sent to emails
+7. Added email addresses as environment variables to Lambda
