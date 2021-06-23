@@ -12,10 +12,9 @@ def send_file_email(bucket, filename, filetype):
     <html>
         <head></head>
         <body>
-            <h1>New File Uploaded to Bucket {bucket}</h1>
             <p>File: {filename}</p>
             <p>File Type: {filetype}</p>
-            <p>File URI in S3: s3://{bucket}/{filename}</p>
+            <p>File S3 URI: s3://{bucket}/{filename}</p>
         </body>
     </html>"""
     CHARSET = "UTF-8"
