@@ -39,6 +39,13 @@ RUN python${RUNTIME_VERSION} -m pip install awslambdaric --target "${FUNCTION_DI
 FROM python-alpine
 # Include global arg in this stage of the build
 ARG FUNCTION_DIR
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_DEFAULT_REGION=eu-west-1
+ARG AWS_SECRET_ACCESS_KEY
+
+ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+    AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+    AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 # Set working directory to function root directory
 WORKDIR "${FUNCTION_DIR}/"
 # Copy in the built dependencies
