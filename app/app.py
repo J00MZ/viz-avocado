@@ -51,8 +51,8 @@ def send_file_email(bucket, filename, filetype):
     except ClientError as e:
         print(e.response['Error']['Message'])
     else:
-        print("Email sent! Message ID:"),
-        print(response['MessageId'])
+        print("Email sent!"),
+        print(f"Message ID: {response['MessageId']}")
 
 def handler(event, context):
 
