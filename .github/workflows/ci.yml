@@ -27,8 +27,8 @@ jobs:
   push:
     runs-on: ubuntu-latest
     steps:
-    - uses: docker://ghcr.io/kciter/aws-ecr-action:latest
     - name: Push updated docker image to ECR
+    - uses: docker://ghcr.io/kciter/aws-ecr-action:latest
       with:
         access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -38,11 +38,9 @@ jobs:
         tags: latest,${{ github.sha }}
 
   deploy:
-    name: Deploy new lambda function from new docker image in ECR
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: AWS Lambda Deploy
+    - name: Deploy new lambda function from new docker image in ECR
       uses: appleboy/lambda-action@master
       with:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
