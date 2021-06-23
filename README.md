@@ -8,4 +8,4 @@ The image will run a python script that triggers when a file is uploaded to the 
 
 ## Building the Docker Image
 Push to master. 
-This will trigger a build of the image, push to ECR and Deployment of the new container from ECR to Lambda
+This will trigger a build of the image, push to ECR and run a Deployment of the new container from ECR to Lambda
