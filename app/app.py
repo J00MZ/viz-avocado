@@ -65,9 +65,8 @@ def handler(event, context):
         response = s3.get_object(Bucket=bucket, Key=key)
         filetype = response['ContentType']
         print(f"FILE TYPE: {filetype}")
-        print(f"FULL RESPONSE: {response}")
         send_file_email(bucket, key, filetype)
-        return response['ContentType']
+        return filetype
     except Exception as e:
         print(e)
         print(f'Error getting object {key} from bucket {bucket}. Make sure both exist and bucket is in same region as this function.')
