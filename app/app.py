@@ -5,18 +5,17 @@ from botocore.exceptions import ClientError
 def send_file_email(bucket, filename, filetype):
     SENDER = "jtavin@gmail.com"
     RECIPIENT = "yosef.tavin@equalum.io"
-    SUBJECT = f"Got uploaded file [{filename}]!"
+    SUBJECT = f"File [{filename}] uploaded to {bucket}"
     BODY_TEXT = (f"File: {filename}"
                  f"File Type: {filetype}")
     BODY_HTML = f"""<html>
     <head></head>
     <body>
     <h1>New File Uploaded to Bucket {bucket}</h1>
-    <p>File: {filename}
-       File Type: {filetype}
-       Sent with <a href='https://aws.amazon.com/ses/'>Amazon SES</a> using the
-        <a href='https://aws.amazon.com/sdk-for-python/'>
-        AWS SDK for Python (Boto)</a>.</p>
+    <p>File: {filename}</br>
+       File Type: {filetype}</br>
+       Download file from: <a href='s3://{bucket}/{filename}'>Amazon S3</a>
+    </p>
     </body>
     </html>
                 """
