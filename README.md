@@ -1,5 +1,5 @@
 # viz-avocado
-- This repo will build and push an image of Avocado Goodness to [S3](https://aws.amazon.com/s3/) 🥑🥑  
+- This repo will build and push an image of Avocado Goodness to [AWS ECR](https://aws.amazon.com/ecr/) 🥑🥑  
 - The image is containerized in an [AWS Lambda](https://aws.amazon.com/lambda/) function
 - The Function consists of a Python script that triggers when a file is uploaded to the S3 Bucket `avocado-file-toaster`  
 - When function is triggered, it will send the file type and S3 URI of the new object in S3 to an email address using [AWS SES](https://aws.amazon.com/ses/)
