@@ -9,13 +9,13 @@
 
 - Upload an object to `s3://viz-avocado`
 
-## Building the Docker Image
-- Push application or CI workflow code to `main` branch.  
+## Triggering the new Docker Image build
+- Push application or CI workflow code to `main` branch (Will not trigger on README updates!).  
 
-Will trigger:  
+The CI triggers:  
 1. New Docker build of the image
-2. Push newly built image to ECR
-3. Run a Deployment of the new container from ECR to the Lambda Function
+2. Pushes newly built image to AWS ECR
+3. Runs a Deployment of the new container from ECR to the Lambda Function `avocado-file-toaster`
 
 ## CI
 Runs with [GitHub Actions](https://github.com/J00MZ/viz-avocado/actions)
