@@ -10,7 +10,7 @@
 - Upload an object to `s3://viz-avocado`
 
 ## Building the Docker Image
-- Push code to `master` branch.  
+- Push application or CI workflow code to `main` branch.  
 
 Will trigger:  
 1. New Docker build of the image
