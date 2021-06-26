@@ -69,3 +69,4 @@ def handler(event, context):
         print(e)
         print(f'Error getting object {key} from bucket {bucket}. Make sure both exist and bucket is in same region as this function.')
         raise e
+
