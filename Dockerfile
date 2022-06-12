@@ -26,7 +26,7 @@ ARG RUNTIME_VERSION_MAJOR
 RUN mkdir -p "${FUNCTION_DIR}/"
 COPY ./app/* "${FUNCTION_DIR}/"
 RUN \
-   RUN python${RUNTIME_VERSION_MAJOR} -m pip install --upgrade pip \
+   python${RUNTIME_VERSION_MAJOR} -m pip install --upgrade pip \
    python${RUNTIME_VERSION_MAJOR} -m pip install --no-cache-dir -r "${FUNCTION_DIR}/requirements.txt" --target "${FUNCTION_DIR}" \
    python${RUNTIME_VERSION_MAJOR} -m pip install awslambdaric --target "${FUNCTION_DIR}/"
 
