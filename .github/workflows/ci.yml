@@ -22,7 +22,7 @@ jobs:
             docker build . -t j00mz/viz-avocado:latest
             docker tag j00mz/viz-avocado:${git_hash} j00mz/viz-avocado:latest
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker push j00mz/viz-avocado:${git_hash}
+            docker push j00mz/viz-avocado:latest
         
       
   
