@@ -9,21 +9,18 @@ on:
 
 jobs:
   build-and-push:
-    name: Push Docker image to multiple registries
+    name: Build and Push image to Docker Hub
     runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
     steps:
       - uses: actions/checkout@v3
-        with:
-            git_hash: $(git rev-parse --short "$GITHUB_SHA")
       - name: Build and push Docker image
         run: |
-            echo "git_hash is: [${git_hash}]"
-            docker build . -t j00mz/crawltricks:latest
+            docker build . -t j00mz/viz-avocado:latest
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker push j00mz/crawltricks:latest
+            docker push j00mz/viz-avocado:latest
         
       
   
