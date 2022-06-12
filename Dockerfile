@@ -25,10 +25,9 @@ ARG FUNCTION_DIR
 ARG RUNTIME_VERSION_MAJOR
 RUN mkdir -p "${FUNCTION_DIR}/"
 COPY ./app/* "${FUNCTION_DIR}/"
-RUN \
-   python3 -m pip install --upgrade pip \
-   python3 -m pip install --no-cache-dir -r "${FUNCTION_DIR}/requirements.txt" --target "${FUNCTION_DIR}" \
-   python3 -m pip install awslambdaric --target "${FUNCTION_DIR}/"
+RUN python3 -m pip install --upgrade pip \
+    && python3 -m pip install --no-cache-dir -r "${FUNCTION_DIR}/requirements.txt" --target "${FUNCTION_DIR}" \
+    && python3 -m pip install awslambdaric --target "${FUNCTION_DIR}/"
 
 # Stage 3 - final runtime image
 # Grab a fresh copy of the Python image
