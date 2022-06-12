@@ -1,20 +1,16 @@
 # Define global args
 ARG FUNCTION_DIR="/app"
 ARG RUNTIME_VERSION_MAJOR="3.10"
-ARG RUNTIME_VERSION_MINOR="1"
+ARG RUNTIME_VERSION_MINOR="4"
 ARG RUNTIME_VERSION="${RUNTIME_VERSION_MAJOR}.${RUNTIME_VERSION_MINOR}"
 ARG DISTRO_VERSION="3.15"
 
 # Stage 1 - bundle base image + runtime
-# Grab a fresh copy of the image and install GCC
 FROM python:${RUNTIME_VERSION}-alpine${DISTRO_VERSION} AS python-alpine
-# Install GCC (Alpine uses musl but we compile and link dependencies with GCC)
 RUN apk add --no-cache \
     libstdc++
 
-# Stage 2 - build function and dependencies
 FROM python-alpine AS build-image
-# Install aws-lambda-cpp build dependencies
 RUN apk add --no-cache \
     build-base \
     libtool \
@@ -24,17 +20,15 @@ RUN apk add --no-cache \
     make \
     cmake \
     libcurl
-# Include global args in this stage of the build
+
 ARG FUNCTION_DIR
 ARG RUNTIME_VERSION_MAJOR
-# Create function directory
 RUN mkdir -p "${FUNCTION_DIR}/"
-# Copy handler function
 COPY ./app/* "${FUNCTION_DIR}/"
-# Optional – Install the function's dependencies
-RUN python${RUNTIME_VERSION_MAJOR} -m pip install -r "${FUNCTION_DIR}/requirements.txt" --target "${FUNCTION_DIR}"
-# Install Lambda Runtime Interface Client for Python
-RUN python${RUNTIME_VERSION_MAJOR} -m pip install awslambdaric --target "${FUNCTION_DIR}/"
+RUN \
+   RUN python${RUNTIME_VERSION_MAJOR} -m pip install --upgrade pip \
+   python${RUNTIME_VERSION_MAJOR} -m pip install --no-cache-dir -r "${FUNCTION_DIR}/requirements.txt" --target "${FUNCTION_DIR}" \
+   python${RUNTIME_VERSION_MAJOR} -m pip install awslambdaric --target "${FUNCTION_DIR}/"
 
 # Stage 3 - final runtime image
 # Grab a fresh copy of the Python image
