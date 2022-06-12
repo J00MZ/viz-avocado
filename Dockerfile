@@ -10,6 +10,7 @@ FROM python:${RUNTIME_VERSION}-alpine${DISTRO_VERSION} AS python-alpine
 RUN apk add --no-cache \
     libstdc++
 
+# Stage 2 - install os dependencies
 FROM python-alpine AS build-image
 RUN apk add --no-cache \
     build-base \
@@ -30,9 +31,7 @@ RUN python3 -m pip install --upgrade pip \
     && python3 -m pip install awslambdaric --target "${FUNCTION_DIR}/"
 
 # Stage 3 - final runtime image
-# Grab a fresh copy of the Python image
 FROM python-alpine
-# Include global arg in this stage of the build
 ARG FUNCTION_DIR
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_DEFAULT_REGION=eu-west-1
@@ -41,11 +40,8 @@ ARG AWS_SECRET_ACCESS_KEY
 ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
     AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
     AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-# Set working directory to function root directory
 WORKDIR "${FUNCTION_DIR}/"
-# Copy in the built dependencies
 COPY --from=build-image ${FUNCTION_DIR} ${FUNCTION_DIR}
-# (Optional) Add Lambda Runtime Interface Emulator and use a script in the ENTRYPOINT for simpler local runs
 ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie /usr/bin/aws-lambda-rie
 COPY ./app/entry.sh /
 RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh
