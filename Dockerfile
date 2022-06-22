@@ -27,9 +27,9 @@ ARG FUNCTION_DIR
 ARG RUNTIME_VERSION_MAJOR
 RUN mkdir -p "${FUNCTION_DIR}/"
 COPY ./app/* "${FUNCTION_DIR}/"
-RUN python3 -m pip install --upgrade pip \
+RUN python3 -m pip install --upgrade --no-cache-dir pip \
     && python3 -m pip install --no-cache-dir -r "${FUNCTION_DIR}/requirements.txt" --target "${FUNCTION_DIR}" \
-    && python3 -m pip install awslambdaric --target "${FUNCTION_DIR}/"
+    && python3 -m pip install --no-cache-dir awslambdaric --target "${FUNCTION_DIR}/"
 
 # Stage 3 - final runtime image
 FROM python-alpine
@@ -41,9 +41,10 @@ ARG AWS_SECRET_ACCESS_KEY
 ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
     AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
     AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-WORKDIR "${FUNCTION_DIR}/"
+WORKDIR "/app"
 COPY --from=build-image ${FUNCTION_DIR} ${FUNCTION_DIR}
-ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie /usr/bin/aws-lambda-rie
+RUN \
+    curl -sLO /usr/bin/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie
 COPY ./app/entry.sh /
 RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh
 ENTRYPOINT [ "/entry.sh" ]
