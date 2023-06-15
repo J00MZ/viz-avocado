@@ -18,7 +18,6 @@ RUN apk add --no-cache \
     libtool \
     autoconf \
     automake \
-    libexecinfo-dev \
     make \
     cmake \
     libcurl \
