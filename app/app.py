@@ -3,7 +3,8 @@ import boto3
 import os
 from botocore.exceptions import ClientError
 
-def send_file_email(bucket, filename, filetype):
+def send_file_email(bucket: str, filename: str, filetype: str):
+    """Send an email to the recipient"""
     SENDER = os.environ['EMAIL_SENDER']
     RECIPIENT = os.environ['EMAIL_RECIEVER']
     SUBJECT = f"File [{filename}] uploaded to {bucket}"
@@ -47,7 +48,7 @@ def send_file_email(bucket, filename, filetype):
             },
             Source=SENDER,
         )
-    # Display an error if something goes wrong.	
+    # Display an error if something goes wrong.
     except ClientError as e:
         print(e.response['Error']['Message'])
     else:
@@ -55,7 +56,8 @@ def send_file_email(bucket, filename, filetype):
         print(f"Message ID: {response['MessageId']}")
 
 def handler(event, context):
-
+    """Lambda handler function"""
+    print(f"Received event: {event}")
     s3 = boto3.client('s3')
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
@@ -65,8 +67,8 @@ def handler(event, context):
         print(f"FILE TYPE: {filetype}")
         send_file_email(bucket, key, filetype)
         return filetype
-    except Exception as e:
-        print(e)
+    except Exception as exp:
+        print(exp)
         print(f'Error getting object {key} from bucket {bucket}. Make sure both exist and bucket is in same region as this function.')
-        raise e
+        raise exp
 
