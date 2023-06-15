@@ -45,7 +45,7 @@ WORKDIR "/app"
 COPY --from=build-image ${FUNCTION_DIR} ${FUNCTION_DIR}
 RUN \
     curl -sLO /usr/bin/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie
-COPY ./app/entry.sh /
-RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh
-ENTRYPOINT [ "/entry.sh" ]
+COPY ./app/entrypoint.sh /
+RUN chmod 755 /usr/bin/aws-lambda-rie /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD [ "app.handler" ]
